@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        {% load staticfiles %}
+
+        <script src="{% static "jquery.min.js" %}"></script>
+        <script src="{% static "bootstrap.min.js" %}"></script>
+
+        <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+
+        <script src="{% static "js/lib/jquery.js" %}"></script>
+        <script src="{% static "js/dist/jquery.validate.js" %}"></script>
+        <script>
+            $(document).ready(function () {
+
+            $('#patient-form').validate({
+           // alert("hello");
+             rules: {
+                patient_name: {
+                    minlength: 6,
+                    maxlength: 18,
+                    required: true
+                     },
+                 patient_code: {
+                    minlength: 6,
+                    maxlength: 18,
+                    required: true
+                 },
+                 patient_age: {
+                    maxlength: 2,
+                    required: true
+                 },
+                 physician_name: {
+                    minlength: 6,
+                    maxlength: 18,
+                    required: true
+                 },
+                 patient_image: {
+                    required: true,
+                    //extension: 'png'
+                 },
+                 diagnostics:{
+                    required: true,
+                       minlength: 6
+                 }
+
+             },
+            highlight: function (element) {
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function (element) {
+                element.text('OK!').addClass('valid')
+                .closest('.control-group').removeClass('error').addClass('success');
+            }
+            });
+
+            });
+        </script>
+        <link rel="shortcut icon" href="{% static "health.png" %}" type="image/png">
+        <title>AL-Hekma Hospital</title>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+           <div class="row">
+               <div class="col-md-12">
+                   <nav class="navbar navbar-default" role="navigation">
+                       <a href="{%url 'patient:index'%}" class="navbar-brand">AL-Hekma Hospital</a>
+                       <div class="collapse navbar-collapse">
+                           <ul class="nav navbar-nav" id="bs-example-navbar-collapse-1">
+                               <li class="active">
+                                   <a href="#">Our Team</a>
+                               </li>
+                               <li>
+                                  <a href="#">Branches</a>
+                               </li>
+                               <li class="dropdown">
+                                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<strong class="caret"></strong> </a>
+                                   <ul class="dropdown-menu">
+								        <li>
+									        <a href="#">Service 1</a>
+								        </li>
+								        <li>
+									        <a href="#">Service 2</a>
+								        </li>
+								        <li>
+									        <a href="#">Service 3</a>
+								        </li>
+								            <li class="divider">
+								        </li>
+								        <li>
+									        <a href="#">Partners</a>
+								        </li>
+							        </ul>
+                               </li>
+                           </ul>
+                           <form class="navbar-form navbar-right" role="search" >
+						        <div class="form-group">
+							        <input type="text" class="form-control">
+						        </div>
+						            <button type="submit" class="btn btn-default">
+							        Search
+						            </button>
+					        </form>
+                       </div>
+
+                   </nav>
+                   <div class="jumbotron">
+				        <center class="page-header">
+					        <h2>Add new patient</h2>
+
+				        </center>
+				        <form  id="patient-form" class="form-horizontal" action="{%url 'patient:result'%}" method="post" role="form"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-sm-2"  for="name">Patient Name:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" name="patient_name" class="form-control" placeholder="Enter Patient Name"/>
+                                </div>
+                                <br><br> <br>
+                                <label class="control-label col-sm-2"  for="code">Patient Code:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" name="patient_code" class="form-control" placeholder="Enter Patient Code"/>
+                                </div>
+                                <br><br> <br>
+                                <label class="control-label col-sm-2" for="age">Patient Age:</label>
+                                <div class="col-sm-5">
+                                    <input type="number" name="patient_age" class="form-control" placeholder="Enter Patient Age"/>
+                                </div>
+                                <br><br> <br>
+                                <label class="control-label col-sm-2" for="phyiscian">Physician Name:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" name="physician_name" class="form-control" placeholder="Enter Physician Name"/>
+                                </div>
+                                <br><br> <br>
+                                <label class="control-label col-sm-2" for="image">Patient Image:</label>
+                                <div class="col-sm-5">
+                                    <input type="file" name="patient_image"  placeholder="Patient Image"/>
+                                </div>
+                                <br><br> <br>
+                                <label class="control-label col-sm-2" for="diagnostics">Diagnostics:</label>
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" rows="5" id="comment" name="diagnostics" placeholder="Enter Patient Diagnostics Here"></textarea>
+                                </div>
+                                <br><br>
+                                <br><br>
+                                <br><br>
+                            </div>
+                            <center>
+                                <input type="submit" class="btn btn-success" name="add" value="Add New Patient">
+                                <input type="reset" class="btn btn-danger" name="Reset">
+                            </center>
+                         </form>
+			</div>
+               </div>
+            </div>
+		<div class="row">
+		<div class="col-md-4">
+			<h2>
+				AL-Hekma Hospital
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				<a class="btn" href="#">View details »</a>
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>
+				AL-Hekma Hospital
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				<a class="btn" href="#">View details »</a>
+			</p>
+		</div>
+		<div class="col-md-4 column ui-sortable">
+			<h2>
+				AL-Hekma Hospital
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				<a class="btn" href="#">View details »</a>
+			</p>
+		</div>
+	</div>
+
+        </div>
+    </body>
+
+</html>
